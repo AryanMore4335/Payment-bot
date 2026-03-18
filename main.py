@@ -1,7 +1,8 @@
 import telebot
-import os
 
-TOKEN = os.getenv("8793984903:AAHUVkMtjHun96NbQEBjdnLhQqSdSI9O2KI")
+# ⚠️ DIRECT TOKEN DAAL (abhi env mat use kar)
+TOKEN = "8793984903:AAHUVkMtjHun96NbQEBjdnLhQqSdSI9O2KI"
+
 bot = telebot.TeleBot(TOKEN)
 
 ADMIN_ID = 7757026734  # apna telegram id daal
@@ -23,18 +24,17 @@ def start(message):
 def buy(message):
     bot.send_message(
         message.chat.id,
-        "💳 Send ₹10 to UPI:\n\n`aryanpvt@ptyes`\n\n📸 Then send screenshot here.",
-        parse_mode="Markdown"
+        "💳 Send ₹10 to UPI:\n\n aryanpvt@ptyes\n\n📸 Then send screenshot here."
     )
 
-# Screenshot handler
+# Screenshot receive
 @bot.message_handler(content_types=['photo'])
 def handle_ss(message):
     user_id = message.from_user.id
 
     bot.reply_to(message, "✅ Screenshot received!\nWait for admin approval.")
 
-    # Forward to admin
+    # Admin ko forward
     bot.forward_message(ADMIN_ID, message.chat.id, message.message_id)
 
     bot.send_message(
