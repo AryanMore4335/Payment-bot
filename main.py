@@ -51,10 +51,12 @@ def approve(message):
     try:
         user_id = int(message.text.split()[1])
 
-        bot.send_message(
-            user_id,
-            "🎉 Payment Approved!\n\n🎁 Your Code:\nBGMI-2026-FREE"
-        )
+        channel_link = "https://t.me/+-Z29dVq3I0plOWU1"
+
+bot.send_message(
+    user_id,
+    f"🎉 Payment Approved!\n\n🎁 Your Gift is here 👇\n{channel_link}\n\n⚠️ Join channel to claim reward"
+)
 
         bot.reply_to(message, "✅ Approved")
 
