@@ -13,7 +13,7 @@ def start(message):
 
     bot.send_message(
         message.chat.id,
-        "👋 Welcome!\n\n💸 Get Private Channel Access for ₹10\n\nClick below 👇",
+        "👋 Welcome!\n\n💸 Get Private Channel Access for ₹350\n\nClick below 👇",
         reply_markup=markup
     )
 
@@ -22,7 +22,7 @@ def start(message):
 def buy(message):
     bot.send_message(
         message.chat.id,
-        "💳 Send ₹10 to UPI:\n\n aryanpvt@ptyes\n\n📸 Then send payment screenshot here."
+        "💳 Send ₹350 to UPI:\n\n aryanpvt@ptyes\n\n📸 Then send payment screenshot here."
     )
 
 # 🔹 SCREENSHOT HANDLE
