@@ -1,99 +1,84 @@
 import telebot
+import os
 
-TOKEN = "8793984903:AAHUVkMtjHun96NbQEBjdnLhQqSdSI9O2KI"
+TOKEN = os.getenv("8793984903:AAHUVkMtjHun96NbQEBjdnLhQqSdSI9O2KI")
 bot = telebot.TeleBot(TOKEN)
 
-ADMIN_ID = 7757026734  # apna telegram id
+ADMIN_ID = 7757026734  # apna telegram id daal
 
-users = set()
-
-# 🔹 CODE FILE SE CODE LENA
-def get_code():
-    with open("codes.txt", "r") as f:
-        lines = f.readlines()
-
-    if len(lines) == 0:
-        return None
-
-    code = lines[0].strip()
-
-    with open("codes.txt", "w") as f:
-        f.writelines(lines[1:])
-
-    return code
-
-# 🔹 START
+# /start
 @bot.message_handler(commands=['start'])
 def start(message):
-    users.add(message.from_user.id)
-
     markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
     markup.add("💰 Buy Code")
 
     bot.send_message(
         message.chat.id,
-        "🔥 Welcome!\n\nBuy premium code for ₹10",
+        "👋 Welcome!\n\n💸 Buy BGMI Code for ₹10\n\nClick below 👇",
         reply_markup=markup
     )
 
-# 🔹 BUY BUTTON
+# Buy button
 @bot.message_handler(func=lambda m: m.text == "💰 Buy Code")
 def buy(message):
     bot.send_message(
         message.chat.id,
-        "💸 Price: ₹10\n\n📲 UPI: aryanpvt@ptyes\n\nAfter payment send screenshot here"
+        "💳 Send ₹10 to UPI:\n\n`aryanpvt@ptyes`\n\n📸 Then send screenshot here.",
+        parse_mode="Markdown"
     )
 
-# 🔹 SCREENSHOT HANDLE
+# Screenshot handler
 @bot.message_handler(content_types=['photo'])
-def screenshot(message):
+def handle_ss(message):
     user_id = message.from_user.id
 
-    # admin ko forward karega
+    bot.reply_to(message, "✅ Screenshot received!\nWait for admin approval.")
+
+    # Forward to admin
     bot.forward_message(ADMIN_ID, message.chat.id, message.message_id)
 
-    bot.send_message(message.chat.id, "⏳ Waiting for admin approval")
+    bot.send_message(
+        ADMIN_ID,
+        f"💰 New Payment!\nUser ID: {user_id}\n\nApprove: /approve {user_id}\nReject: /reject {user_id}"
+    )
 
-# 🔹 APPROVE COMMAND
+# Approve
 @bot.message_handler(commands=['approve'])
 def approve(message):
     if message.from_user.id != ADMIN_ID:
         return
 
     try:
-        reply = message.reply_to_message
-        user_id = reply.forward_from.id
-
-        code = get_code()
-
-        if code is None:
-            bot.send_message(message.chat.id, "❌ No codes left")
-            return
+        user_id = int(message.text.split()[1])
 
         bot.send_message(
             user_id,
-            f"✅ Payment Verified!\n\n🎁 Your Code:\n{code}"
+            "🎉 Payment Approved!\n\n🎁 Your Code:\nBGMI-2026-FREE"
         )
 
-        bot.send_message(message.chat.id, "✅ Code sent")
+        bot.reply_to(message, "✅ Approved")
 
     except:
-        bot.send_message(message.chat.id, "❌ Reply to screenshot")
+        bot.reply_to(message, "❌ Use: /approve user_id")
 
-# 🔹 REJECT COMMAND
+# Reject
 @bot.message_handler(commands=['reject'])
 def reject(message):
     if message.from_user.id != ADMIN_ID:
         return
 
     try:
-        reply = message.reply_to_message
-        user_id = reply.forward_from.id
+        user_id = int(message.text.split()[1])
 
-        bot.send_message(user_id, "❌ Payment rejected")
-        bot.send_message(message.chat.id, "❌ Rejected")
+        bot.send_message(
+            user_id,
+            "❌ Payment Rejected!\nSend correct screenshot."
+        )
+
+        bot.reply_to(message, "❌ Rejected")
 
     except:
-        bot.send_message(message.chat.id, "❌ Error")
+        bot.reply_to(message, "❌ Use: /reject user_id")
 
+print("Bot running...")
 bot.infinity_polling()
