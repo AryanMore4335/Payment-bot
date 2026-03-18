@@ -13,7 +13,7 @@ def start(message):
 
     bot.send_message(
         message.chat.id,
-        "👋 Welcome!\n\n💸 Get Private Channel Access for ₹350\n\nClick below 👇",
+        "👋 Welcome!\n\n💸 Get bot codes Access for ₹10\n\nClick below 👇",
         reply_markup=markup
     )
 
@@ -22,7 +22,7 @@ def start(message):
 def buy(message):
     bot.send_message(
         message.chat.id,
-        "💳 Send ₹350 to UPI:\n\n aryanpvt@ptyes\n\n📸 Then send payment screenshot here."
+        "💳 Send ₹10 to UPI:\n\n aryanpvt@ptyes\n\n📸 Then send payment screenshot here."
     )
 
 # 🔹 SCREENSHOT HANDLE
@@ -49,7 +49,7 @@ def approve(message):
     try:
         user_id = int(message.text.split()[1])
 
-        invite_link = "https://t.me/+u8wGyjJ3cHJkODg1"  # 👈 yaha apna invite link daal
+        invite_link = "https://t.me/+-Z29dVq3I0plOWU1"  # 👈 yaha apna invite link daal
 
         bot.send_message(
             user_id,
