@@ -1,40 +1,38 @@
 import telebot
 
-# ⚠️ DIRECT TOKEN DAAL (abhi env mat use kar)
 TOKEN = "8793984903:AAHUVkMtjHun96NbQEBjdnLhQqSdSI9O2KI"
-
 bot = telebot.TeleBot(TOKEN)
 
-ADMIN_ID = 7757026734  # apna telegram id daal
+ADMIN_ID = 7757026734  # apna telegram id
 
-# /start
+# 🔹 START
 @bot.message_handler(commands=['start'])
 def start(message):
     markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
-    markup.add("💰 Buy Code")
+    markup.add("💰 Buy Access")
 
     bot.send_message(
         message.chat.id,
-        "👋 Welcome!\n\n💸 Buy BGMI Code for ₹10\n\nClick below 👇",
+        "👋 Welcome!\n\n💸 Get Private Channel Access for ₹10\n\nClick below 👇",
         reply_markup=markup
     )
 
-# Buy button
-@bot.message_handler(func=lambda m: m.text == "💰 Buy Code")
+# 🔹 BUY BUTTON
+@bot.message_handler(func=lambda m: m.text == "💰 Buy Access")
 def buy(message):
     bot.send_message(
         message.chat.id,
-        "💳 Send ₹10 to UPI:\n\n aryanpvt@ptyes\n\n📸 Then send screenshot here."
+        "💳 Send ₹10 to UPI:\n\n aryanpvt@ptyes\n\n📸 Then send payment screenshot here."
     )
 
-# Screenshot receive
+# 🔹 SCREENSHOT HANDLE
 @bot.message_handler(content_types=['photo'])
 def handle_ss(message):
     user_id = message.from_user.id
 
     bot.reply_to(message, "✅ Screenshot received!\nWait for admin approval.")
 
-    # Admin ko forward
+    # admin ko forward
     bot.forward_message(ADMIN_ID, message.chat.id, message.message_id)
 
     bot.send_message(
@@ -42,7 +40,7 @@ def handle_ss(message):
         f"💰 New Payment!\nUser ID: {user_id}\n\nApprove: /approve {user_id}\nReject: /reject {user_id}"
     )
 
-# Approve
+# 🔹 APPROVE (INVITE LINK)
 @bot.message_handler(commands=['approve'])
 def approve(message):
     if message.from_user.id != ADMIN_ID:
@@ -51,19 +49,19 @@ def approve(message):
     try:
         user_id = int(message.text.split()[1])
 
-        channel_link = "https://t.me/+-Z29dVq3I0plOWU1"
+        invite_link = "https://t.me/+-Z29dVq3I0plOWU1"  # 👈 yaha apna invite link daal
 
-bot.send_message(
-    user_id,
-    f"🎉 Payment Approved!\n\n🎁 Your Gift is here 👇\n{channel_link}\n\n⚠️ Join channel to claim reward"
-)
+        bot.send_message(
+            user_id,
+            f"🎉 Payment Approved!\n\n🔒 Your Private Access Link 👇\n{invite_link}\n\n⚠️ Join fast, link limited use ho sakta hai"
+        )
 
-        bot.reply_to(message, "✅ Approved")
+        bot.reply_to(message, "✅ Approved + Link Sent")
 
     except:
         bot.reply_to(message, "❌ Use: /approve user_id")
 
-# Reject
+# 🔹 REJECT
 @bot.message_handler(commands=['reject'])
 def reject(message):
     if message.from_user.id != ADMIN_ID:
