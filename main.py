@@ -49,7 +49,7 @@ def approve(message):
     try:
         user_id = int(message.text.split()[1])
 
-        invite_link = "https://t.me/+-Z29dVq3I0plOWU1"  # 👈 yaha apna invite link daal
+        invite_link = "https://t.me/+u8wGyjJ3cHJkODg1"  # 👈 yaha apna invite link daal
 
         bot.send_message(
             user_id,
